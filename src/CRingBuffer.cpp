@@ -60,6 +60,8 @@ bool CRingBuffer::push(
 
     // TODO: wrap-around
     writeData(in_data, in_size);
+
+    return true;
 }
 
 /**
@@ -83,6 +85,8 @@ bool CRingBuffer::commit()
     pItemNext->m_enable = false;
 
     // TODO: unlock
+
+    return true;
 }
 
 /**

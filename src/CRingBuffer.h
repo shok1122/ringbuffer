@@ -47,7 +47,14 @@ inline CRingBuffer::SItemTable::SItemTable():
 {
 }
 
-unsigned long CRingBuffer::calcAddrEnd(const unsigned long in_addr, const unsigned long in_size) const
+/**
+ * calc end of data.
+ * @return address
+ */
+unsigned long CRingBuffer::calcAddrEnd(
+		const unsigned long in_addr, ///< [in] aaddress where data is written
+		const unsigned long in_size  ///< [in] size of data
+		) const
 {
     if (in_addr + in_size < m_capacity)
     {
@@ -57,7 +64,13 @@ unsigned long CRingBuffer::calcAddrEnd(const unsigned long in_addr, const unsign
     return (in_addr + in_size) - m_capacity;
 }
 
-unsigned long CRingBuffer::incrementIndexTable(const unsigned long in_indexTable) const
+/**
+ * increment index of table.
+ * @return incremented index
+ */
+unsigned long CRingBuffer::incrementIndexTable(
+		const unsigned long in_indexTable ///< [in] current index of table
+		) const
 {
     return (in_indexTable + 1) % m_num;
 }

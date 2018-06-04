@@ -3,14 +3,15 @@
 #include <string.h>
 
 CRingBuffer::CRingBuffer():
-    m_num(0),
-    m_capacity(0),
-    m_indexTable(0),
-    m_indexTableBegin(0),
-    m_indexTableEnd(0),
-    m_addrWrite(0),
-    m_pTable(nullptr),
-    m_pBuffer(nullptr)
+	m_num(0),
+	m_capacity(0),
+	m_indexTable(0),
+	m_indexTableBegin(0),
+	m_indexTableEnd(0),
+	m_indexPop(m_indexTableBegin),
+	m_addrWrite(0),
+	m_pTable(nullptr),
+	m_pBuffer(nullptr)
 {
 }
 
@@ -62,6 +63,25 @@ bool CRingBuffer::push(
     writeData(in_data, in_size);
 
     return true;
+}
+
+bool CRingBuffer::pop(
+		unsigned char* out_pBuffer, ///< [out]
+		const unsigned long in_size, ///< [in]
+		unsigned long* out_pSize    ///< [out]
+		)
+{
+	const SItemTable& c_sTable = m_pTable[m_indexPop];
+
+	if (in_size < c_sTable.m_size)
+	{
+		return false;
+	}
+
+	memcpy(out_pBuffer, &(m_pBuffer[c_sTable.m_addr]), c_sTable.m_size);
+	*out_pSize = c_sTable.m_size;
+
+	return true;
 }
 
 /**

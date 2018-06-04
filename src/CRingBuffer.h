@@ -20,6 +20,7 @@ public:
 
     bool init(const unsigned long in_num, const unsigned long in_size);
     bool push(const unsigned char* in_data, const unsigned long in_size);
+    bool pop(unsigned char* out_pBuffer, const unsigned long in_size, unsigned long* out_pSize);
     bool commit();
 
     CRingBuffer();
@@ -31,6 +32,7 @@ private:
     unsigned long m_indexTable; ///< current index of table
     unsigned long m_indexTableBegin; ///< begin index of table
     unsigned long m_indexTableEnd; ///< end index of table
+    unsigned long m_indexPop; ///< pop index of table
     unsigned long m_addrWrite; ///< write pointer
 
     SItemTable* m_pTable; ///< table
@@ -51,7 +53,7 @@ inline CRingBuffer::SItemTable::SItemTable():
  * calc end of data.
  * @return address
  */
-unsigned long CRingBuffer::calcAddrEnd(
+inline unsigned long CRingBuffer::calcAddrEnd(
 		const unsigned long in_addr, ///< [in] aaddress where data is written
 		const unsigned long in_size  ///< [in] size of data
 		) const
@@ -68,7 +70,7 @@ unsigned long CRingBuffer::calcAddrEnd(
  * increment index of table.
  * @return incremented index
  */
-unsigned long CRingBuffer::incrementIndexTable(
+inline unsigned long CRingBuffer::incrementIndexTable(
 		const unsigned long in_indexTable ///< [in] current index of table
 		) const
 {
